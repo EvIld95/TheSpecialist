@@ -1,0 +1,26 @@
+//
+//  ProfileViewController.swift
+//  Specialist
+//
+//  Created by Paweł Szudrowicz on 07.06.2018.
+//  Copyright © 2018 Paweł Szudrowicz. All rights reserved.
+//
+
+import UIKit
+
+
+class ProfileViewController: UIViewController {
+    let profileImageView: UIImageView = {
+        let iv = UIImageView()
+        iv.contentMode = .scaleAspectFill
+        iv.clipsToBounds = true
+        iv.layer.cornerRadius = iv.frame.width/2
+        iv.backgroundColor = .specialistBlue
+        
+        return iv
+    }()
+    
+    override func viewDidLoad() {
+        
+    }
+}
