@@ -7,6 +7,8 @@
 //
 
 import Foundation
+import CoreLocation
+
 struct Post {
     
     var id: String?
@@ -17,6 +19,8 @@ struct Post {
     let text: String
     let creationDate: Date
     let category: String
+    let latitude: CLLocationDegrees
+    let longitude: CLLocationDegrees
     
     init(user: User, dictionary: [String: Any]) {
         self.user = user
@@ -26,5 +30,7 @@ struct Post {
         self.category = dictionary["category"] as? String ?? ""
         let secondsFrom1970 = dictionary["creationDate"] as? Double ?? 0
         self.creationDate = Date(timeIntervalSince1970: secondsFrom1970)
+        self.latitude = dictionary["latitude"] as? CLLocationDegrees ?? 0
+        self.longitude = dictionary["longitude"] as? CLLocationDegrees ?? 0
     }
 }

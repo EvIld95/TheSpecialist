@@ -50,7 +50,7 @@ class CompanyOffersController: UICollectionViewController, UICollectionViewDeleg
     }
     
     fileprivate func fetchPostsWithUser(user: User) {
-        let ref = Database.database().reference().child("posts").child(user.uid)
+        let ref = Database.database().reference().child("offers").child(user.uid)
         ref.observeSingleEvent(of: .value, with: { (snapshot) in
             self.collectionView?.refreshControl?.endRefreshing()
             guard let dictionaries = snapshot.value as? [String: Any] else { return }
@@ -98,5 +98,13 @@ class CompanyOffersController: UICollectionViewController, UICollectionViewDeleg
         cell.post = posts[indexPath.item]
         return cell
     }
+    
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let detailCompanyOffer = DetailCompanyOffer()
+        detailCompanyOffer.post = posts[indexPath.item]
+        navigationController?.pushViewController(detailCompanyOffer, animated: true)
+    }
+    
+    
 }
 

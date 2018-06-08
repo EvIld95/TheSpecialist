@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 
 class CompanyOffersCell: UICollectionViewCell {
+
     var post: Post? {
         didSet {
             guard let postImageUrl = post?.imageUrl else { return }
@@ -29,6 +30,8 @@ class CompanyOffersCell: UICollectionViewCell {
             setupAttributedCaption()
         }
     }
+    
+    
     
     fileprivate func setupAttributedCaption() {
         guard let post = self.post else { return }

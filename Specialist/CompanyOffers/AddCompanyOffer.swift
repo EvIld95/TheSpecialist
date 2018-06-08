@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import CoreLocation
 
 class AddCompanyOfferController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     let addImageButton: UIButton = {
@@ -62,6 +63,15 @@ class AddCompanyOfferController: UIViewController, UIImagePickerControllerDelega
         return tf
     }()
     
+    let addressTextField: UITextField = {
+        let tf = UITextField()
+        tf.placeholder = "Address"
+        tf.backgroundColor = UIColor(white: 0, alpha: 0.03)
+        tf.borderStyle = .roundedRect
+        tf.font = UIFont.systemFont(ofSize: 14)
+        return tf
+    }()
+    
     let categoryText: UITextField = {
         let tf = UITextField()
         tf.placeholder = "Categories"
@@ -89,18 +99,14 @@ class AddCompanyOfferController: UIViewController, UIImagePickerControllerDelega
         createOfferButton.isEnabled = false
         
         let filename = NSUUID().uuidString
-        Storage.storage().reference().child("posts").child(filename).putData(uploadData, metadata: nil) { (metadata, err) in
-            
+        Storage.storage().reference().child("offers").child(filename).putData(uploadData, metadata: nil) { (metadata, err) in
             if let err = err {
                 self.navigationItem.rightBarButtonItem?.isEnabled = true
                 print("Failed to upload post image:", err)
                 return
             }
-            
             guard let imageUrl = metadata?.downloadURL()?.absoluteString else { return }
-            
             print("Successfully uploaded post image:", imageUrl)
-            
             self.saveToDatabaseWithImageUrl(imageUrl: imageUrl)
         }
     }
@@ -110,23 +116,30 @@ class AddCompanyOfferController: UIViewController, UIImagePickerControllerDelega
         guard let category = categoryText.text, category.count > 0 else { return }
         guard let image = addImageButton.imageView?.image else { return }
         guard let uid = Auth.auth().currentUser?.uid else { return }
-        
-        let userPostRef = Database.database().reference().child("posts").child(uid)
+        guard let address = addressTextField.text, address.count > 0 else { return }
+        let userPostRef = Database.database().reference().child("offers").child(uid)
         let ref = userPostRef.childByAutoId()
         
-        let values = ["imageUrl": imageUrl, "caption": caption, "text": textView.text, "category": category, "imageWidth": image.size.width, "imageHeight": image.size.height, "creationDate": Date().timeIntervalSince1970] as [String : Any]
-        
-        ref.updateChildValues(values) { (err, ref) in
-            if let err = err {
-                self.createOfferButton.isEnabled = true
-                print("Failed to save post to DB", err)
-                return
+        let geoCoder = CLGeocoder()
+        geoCoder.geocodeAddressString(address) { (placemarks, error) in
+            guard let placemarks = placemarks, let location = placemarks.first?.location?.coordinate else { return }
+           
+            let longitude = location.longitude
+            let latitude = location.latitude
+            
+            let values = ["imageUrl": imageUrl, "caption": caption, "text": self.textView.text, "category": category, "longitude" : longitude, "latitude" : latitude, "imageWidth": image.size.width, "imageHeight": image.size.height, "creationDate": Date().timeIntervalSince1970] as [String : Any]
+            
+            ref.updateChildValues(values) { (err, ref) in
+                if let err = err {
+                    self.createOfferButton.isEnabled = true
+                    print("Failed to save post to DB", err)
+                    return
+                }
+                print("Successfully saved post to DB")
+                self.dismiss(animated: true, completion: nil)
+                
+                //NotificationCenter.default.post(name: SharePhotoController.updateFeedNotificationName, object: nil)
             }
-            
-            print("Successfully saved post to DB")
-            self.dismiss(animated: true, completion: nil)
-            
-            //NotificationCenter.default.post(name: SharePhotoController.updateFeedNotificationName, object: nil)
         }
     }
     
@@ -152,7 +165,7 @@ class AddCompanyOfferController: UIViewController, UIImagePickerControllerDelega
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .done, target: self, action: #selector(cancelHandle))
         
         self.view.backgroundColor = .white
-        let stackView = UIStackView(arrangedSubviews: [addImageButton, captionTextField, categoryText, textView, createOfferButton])
+        let stackView = UIStackView(arrangedSubviews: [addImageButton, captionTextField, categoryText, addressTextField, textView, createOfferButton])
         
         stackView.alignment = .fill
         stackView.axis = .vertical
