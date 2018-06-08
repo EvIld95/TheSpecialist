@@ -127,7 +127,7 @@ class AddCompanyOfferController: UIViewController, UIImagePickerControllerDelega
             let longitude = location.longitude
             let latitude = location.latitude
             
-            let values = ["imageUrl": imageUrl, "caption": caption, "text": self.textView.text, "category": category, "longitude" : longitude, "latitude" : latitude, "imageWidth": image.size.width, "imageHeight": image.size.height, "creationDate": Date().timeIntervalSince1970] as [String : Any]
+            let values = ["imageUrl": imageUrl, "caption": caption, "text": self.textView.text, "category": category, "longitude" : longitude, "latitude" : latitude, "address": address, "imageWidth": image.size.width, "imageHeight": image.size.height, "creationDate": Date().timeIntervalSince1970] as [String : Any]
             
             ref.updateChildValues(values) { (err, ref) in
                 if let err = err {

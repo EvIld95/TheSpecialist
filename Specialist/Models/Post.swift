@@ -21,6 +21,7 @@ struct Post {
     let category: String
     let latitude: CLLocationDegrees
     let longitude: CLLocationDegrees
+    let address: String
     
     init(user: User, dictionary: [String: Any]) {
         self.user = user
@@ -32,5 +33,6 @@ struct Post {
         self.creationDate = Date(timeIntervalSince1970: secondsFrom1970)
         self.latitude = dictionary["latitude"] as? CLLocationDegrees ?? 0
         self.longitude = dictionary["longitude"] as? CLLocationDegrees ?? 0
+        self.address = dictionary["address"] as? String ?? ""
     }
 }
