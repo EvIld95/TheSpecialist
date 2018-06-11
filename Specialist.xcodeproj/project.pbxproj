@@ -27,6 +27,10 @@
 		F7DD8C7220C9D7FA0059C862 /* CustomImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7DD8C7120C9D7FA0059C862 /* CustomImageView.swift */; };
 		F7DD8C7420CA64860059C862 /* AddCompanyOffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7DD8C7320CA64860059C862 /* AddCompanyOffer.swift */; };
 		F7DD8C7620CAF09D0059C862 /* DetailCompanyOffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7DD8C7520CAF09D0059C862 /* DetailCompanyOffer.swift */; };
+		F7F3ABF320CF11060064040E /* AddOrderController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7F3ABF220CF11060064040E /* AddOrderController.swift */; };
+		F7F3ABF520CF175F0064040E /* Order.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7F3ABF420CF175F0064040E /* Order.swift */; };
+		F7F3ABF720CF19520064040E /* OrdersController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7F3ABF620CF19520064040E /* OrdersController.swift */; };
+		F7F3ABF920CF19890064040E /* OrdersCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7F3ABF820CF19890064040E /* OrdersCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -54,6 +58,10 @@
 		F7DD8C7120C9D7FA0059C862 /* CustomImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomImageView.swift; sourceTree = "<group>"; };
 		F7DD8C7320CA64860059C862 /* AddCompanyOffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCompanyOffer.swift; sourceTree = "<group>"; };
 		F7DD8C7520CAF09D0059C862 /* DetailCompanyOffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailCompanyOffer.swift; sourceTree = "<group>"; };
+		F7F3ABF220CF11060064040E /* AddOrderController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddOrderController.swift; sourceTree = "<group>"; };
+		F7F3ABF420CF175F0064040E /* Order.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Order.swift; sourceTree = "<group>"; };
+		F7F3ABF620CF19520064040E /* OrdersController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrdersController.swift; sourceTree = "<group>"; };
+		F7F3ABF820CF19890064040E /* OrdersCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrdersCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -155,6 +163,7 @@
 			children = (
 				F7DD8C6620C9D1090059C862 /* User.swift */,
 				F7DD8C6820C9D35D0059C862 /* Post.swift */,
+				F7F3ABF420CF175F0064040E /* Order.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -166,6 +175,9 @@
 				F7DD8C6D20C9D5990059C862 /* CompanyOffersCell.swift */,
 				F7DD8C7320CA64860059C862 /* AddCompanyOffer.swift */,
 				F7DD8C7520CAF09D0059C862 /* DetailCompanyOffer.swift */,
+				F7F3ABF220CF11060064040E /* AddOrderController.swift */,
+				F7F3ABF620CF19520064040E /* OrdersController.swift */,
+				F7F3ABF820CF19890064040E /* OrdersCell.swift */,
 			);
 			path = CompanyOffers;
 			sourceTree = "<group>";
@@ -299,20 +311,24 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F7F3ABF720CF19520064040E /* OrdersController.swift in Sources */,
 				F7DD8C7420CA64860059C862 /* AddCompanyOffer.swift in Sources */,
 				F7DD8C4720BE9E500059C862 /* ViewController.swift in Sources */,
 				F7DD8C5720BEAB7D0059C862 /* LoginController.swift in Sources */,
 				F7DD8C5E20C98D580059C862 /* MainTabBarController.swift in Sources */,
 				F7DD8C4520BE9E500059C862 /* AppDelegate.swift in Sources */,
 				F7DD8C7020C9D73A0059C862 /* FirebaseExtension.swift in Sources */,
+				F7F3ABF520CF175F0064040E /* Order.swift in Sources */,
 				F7DD8C6E20C9D5990059C862 /* CompanyOffersCell.swift in Sources */,
 				F7DD8C7620CAF09D0059C862 /* DetailCompanyOffer.swift in Sources */,
 				F7DD8C6C20C9D4DD0059C862 /* CompanyOffersController.swift in Sources */,
 				F7DD8C6720C9D1090059C862 /* User.swift in Sources */,
 				F7DD8C6420C9C15F0059C862 /* ProfileViewController.swift in Sources */,
 				F7DD8C6920C9D35D0059C862 /* Post.swift in Sources */,
+				F7F3ABF320CF11060064040E /* AddOrderController.swift in Sources */,
 				F7DD8C5A20BEABCB0059C862 /* Extensions.swift in Sources */,
 				F7DD8C6120C98F890059C862 /* SignUpController.swift in Sources */,
+				F7F3ABF920CF19890064040E /* OrdersCell.swift in Sources */,
 				F7DD8C7220C9D7FA0059C862 /* CustomImageView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

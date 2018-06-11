@@ -85,7 +85,6 @@ class AddCompanyOfferController: UIViewController, UIImagePickerControllerDelega
         let imagePickerController = UIImagePickerController()
         imagePickerController.delegate = self
         imagePickerController.allowsEditing = true
-        
         present(imagePickerController, animated: true, completion: nil)
     }
     
@@ -137,7 +136,6 @@ class AddCompanyOfferController: UIViewController, UIImagePickerControllerDelega
                 }
                 print("Successfully saved post to DB")
                 self.dismiss(animated: true, completion: nil)
-                
                 //NotificationCenter.default.post(name: SharePhotoController.updateFeedNotificationName, object: nil)
             }
         }

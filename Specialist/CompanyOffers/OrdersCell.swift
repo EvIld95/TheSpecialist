@@ -1,35 +1,31 @@
 //
-//  CompanyOffesCell.swift
+//  OrdersCell.swift
 //  Specialist
 //
-//  Created by Paweł Szudrowicz on 07.06.2018.
+//  Created by Paweł Szudrowicz on 11.06.2018.
 //  Copyright © 2018 Paweł Szudrowicz. All rights reserved.
 //
 
-import Foundation
 import UIKit
 
-class CompanyOffersCell: UICollectionViewCell {
-
-    var post: Post? {
+class OrdersCell: UICollectionViewCell {
+    
+    var order: Order? {
         didSet {
-            guard let postImageUrl = post?.imageUrl else { return }
-            photoImageView.loadImage(urlString: postImageUrl)
-            usernameLabel.text = post?.user.username
+            usernameLabel.text = order?.user.username
             
-            guard let profileImageUrl = post?.user.profileImageUrl else { return }
+            guard let profileImageUrl = order?.user.profileImageUrl else { return }
             
             userProfileImageView.loadImage(urlString: profileImageUrl)
             
-            //            captionLabel.text = post?.caption
-            
             setupAttributedCaption()
-            titleLabel.text = post?.caption
+            titleLabel.text = order?.caption
+            textView.text = order?.text
         }
     }
     
     fileprivate func setupAttributedCaption() {
-        guard let post = self.post else { return }
+        guard let post = self.order else { return }
         
         let timeAgoDisplay = post.creationDate.timeAgoDisplay()
         let attributedText = NSMutableAttributedString(string: timeAgoDisplay, attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 14), NSAttributedStringKey.foregroundColor: UIColor.gray])
@@ -40,13 +36,6 @@ class CompanyOffersCell: UICollectionViewCell {
     }
     
     let userProfileImageView: CustomImageView = {
-        let iv = CustomImageView()
-        iv.contentMode = .scaleAspectFill
-        iv.clipsToBounds = true
-        return iv
-    }()
-    
-    let photoImageView: CustomImageView = {
         let iv = CustomImageView()
         iv.contentMode = .scaleAspectFill
         iv.clipsToBounds = true
@@ -65,6 +54,7 @@ class CompanyOffersCell: UICollectionViewCell {
         label.numberOfLines = 0
         label.font = UIFont.systemFont(ofSize: 20)
         label.textAlignment = .center
+        label.backgroundColor = UIColor(white: 0, alpha: 0.05)
         return label
     }()
     
@@ -74,26 +64,32 @@ class CompanyOffersCell: UICollectionViewCell {
         return label
     }()
     
+    lazy var textView: UITextView = {
+        let tv = UITextView()
+        tv.font = UIFont.systemFont(ofSize: 14)
+        tv.isEditable = false
+        return tv
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         addSubview(userProfileImageView)
         addSubview(usernameLabel)
-        addSubview(photoImageView)
         addSubview(captionLabel)
         addSubview(titleLabel)
+        addSubview(textView)
         
-        userProfileImageView.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: nil, paddingTop: 8, paddingLeft: 8, paddingBottom: 0, paddingRight: 0, width: 40, height: 40)
+        titleLabel.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 8, paddingLeft: 8, paddingBottom: 0, paddingRight: 8, width: 0, height: 30)
+        
+        
+        userProfileImageView.anchor(top: titleLabel.bottomAnchor, left: leftAnchor, bottom: nil, right: nil, paddingTop: 8, paddingLeft: 8, paddingBottom: 0, paddingRight: 0, width: 40, height: 40)
         userProfileImageView.layer.cornerRadius = 40 / 2
         
-        usernameLabel.anchor(top: topAnchor, left: userProfileImageView.rightAnchor, bottom: nil, right: rightAnchor, paddingTop: 8, paddingLeft: 8, paddingBottom: 0, paddingRight: 0, width: 0, height: 40)
+        usernameLabel.anchor(top: titleLabel.bottomAnchor, left: userProfileImageView.rightAnchor, bottom: nil, right: rightAnchor, paddingTop: 8, paddingLeft: 8, paddingBottom: 0, paddingRight: 0, width: 0, height: 40)
         
-        titleLabel.anchor(top: userProfileImageView.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 8, paddingLeft: 8, paddingBottom: 0, paddingRight: 0, width: 0, height: 30)
+        textView.anchor(top: usernameLabel.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 8, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 50)
         
-        photoImageView.anchor(top: titleLabel.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 8, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
-        photoImageView.heightAnchor.constraint(equalTo: widthAnchor, multiplier: 1).isActive = true
-        
-        
-        captionLabel.anchor(top: photoImageView.bottomAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 8, paddingBottom: 0, paddingRight: 8, width: 0, height: 0)
+        captionLabel.anchor(top: textView.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 8, paddingBottom: 0, paddingRight: 8, width: 0, height: 40)
     }
     
     required init?(coder aDecoder: NSCoder) {
