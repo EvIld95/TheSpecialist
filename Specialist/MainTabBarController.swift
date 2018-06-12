@@ -32,13 +32,15 @@ class MainTabBarController: UITabBarController, UITabBarControllerDelegate {
     func setupViewControllers() {
         //companyOffers
         let collectionViewFlowLayout = UICollectionViewFlowLayout()
+        let offerimage = resizeImage(image: #imageLiteral(resourceName: "offer"), newWidth: 44)
         let companyOffersController = CompanyOffersController(collectionViewLayout: collectionViewFlowLayout)
-        let homeNavController = templateNavController(unselectedImage: #imageLiteral(resourceName: "home_unselected"), selectedImage: #imageLiteral(resourceName: "home_selected"), rootViewController: companyOffersController) 
+        let homeNavController = templateNavController(unselectedImage: offerimage!, selectedImage: offerimage!, rootViewController: companyOffersController)
 
         
         let collectionViewFlowLayout2 = UICollectionViewFlowLayout()
+        let orderimage = resizeImage(image: #imageLiteral(resourceName: "order"), newWidth: 40)
         let ordersController = OrdersController(collectionViewLayout: collectionViewFlowLayout2)
-        let likeNavController = templateNavController(unselectedImage: #imageLiteral(resourceName: "like_unselected"), selectedImage: #imageLiteral(resourceName: "like_selected"), rootViewController: ordersController)
+        let likeNavController = templateNavController(unselectedImage: orderimage!, selectedImage: orderimage!, rootViewController: ordersController)
         
         //user profile
         
@@ -46,8 +48,9 @@ class MainTabBarController: UITabBarController, UITabBarControllerDelegate {
         
         let mapNavController = UINavigationController(rootViewController: mapViewController)
         
-        mapNavController.tabBarItem.image = #imageLiteral(resourceName: "profile_unselected")
-        mapNavController.tabBarItem.selectedImage = #imageLiteral(resourceName: "profile_selected")
+        let image = resizeImage(image: #imageLiteral(resourceName: "map"), newWidth: 40)
+        mapNavController.tabBarItem.image = image
+        mapNavController.tabBarItem.selectedImage = image
         
         tabBar.tintColor = .black
         
@@ -70,5 +73,19 @@ class MainTabBarController: UITabBarController, UITabBarControllerDelegate {
         navController.tabBarItem.selectedImage = selectedImage
         return navController
     }
+    
+    func resizeImage(image: UIImage, newWidth: CGFloat) -> UIImage? {
+        
+        let scale = newWidth / image.size.width
+        let newHeight = image.size.height * scale
+        UIGraphicsBeginImageContext(CGSize(width: newWidth, height: newWidth))
+        image.draw(in: CGRect(x: 0, y: 0, width: newWidth, height: newWidth))
+        
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return newImage
+    }
+
 }
 
