@@ -42,18 +42,18 @@ class MainTabBarController: UITabBarController, UITabBarControllerDelegate {
         
         //user profile
         
-        let userProfileController = UIViewController()
+        let mapViewController = MapViewController()
         
-        let userProfileNavController = UINavigationController(rootViewController: userProfileController)
+        let mapNavController = UINavigationController(rootViewController: mapViewController)
         
-        userProfileNavController.tabBarItem.image = #imageLiteral(resourceName: "profile_unselected")
-        userProfileNavController.tabBarItem.selectedImage = #imageLiteral(resourceName: "profile_selected")
+        mapNavController.tabBarItem.image = #imageLiteral(resourceName: "profile_unselected")
+        mapNavController.tabBarItem.selectedImage = #imageLiteral(resourceName: "profile_selected")
         
         tabBar.tintColor = .black
         
         viewControllers = [homeNavController,
                            likeNavController,
-                           userProfileNavController]
+                           mapNavController]
         
         //modify tab bar item insets
         guard let items = tabBar.items else { return }

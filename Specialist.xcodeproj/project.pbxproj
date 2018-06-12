@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		6C3E7BB55104BE79A10AA886 /* Pods_Specialist.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98BEB2F309F076C108391A43 /* Pods_Specialist.framework */; };
+		F7D711BA20D0288700E51129 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7D711B920D0288700E51129 /* MapViewController.swift */; };
 		F7DD8C4520BE9E500059C862 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7DD8C4420BE9E500059C862 /* AppDelegate.swift */; };
 		F7DD8C4720BE9E500059C862 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7DD8C4620BE9E500059C862 /* ViewController.swift */; };
 		F7DD8C4A20BE9E500059C862 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F7DD8C4820BE9E500059C862 /* Main.storyboard */; };
@@ -37,6 +38,7 @@
 		142EB871E75E030921CDCF70 /* Pods-Specialist.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Specialist.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Specialist/Pods-Specialist.debug.xcconfig"; sourceTree = "<group>"; };
 		766E8B8E5D853B9284E67677 /* Pods-Specialist.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Specialist.release.xcconfig"; path = "Pods/Target Support Files/Pods-Specialist/Pods-Specialist.release.xcconfig"; sourceTree = "<group>"; };
 		98BEB2F309F076C108391A43 /* Pods_Specialist.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Specialist.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F7D711B920D0288700E51129 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		F7DD8C4120BE9E500059C862 /* Specialist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Specialist.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F7DD8C4420BE9E500059C862 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F7DD8C4620BE9E500059C862 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -93,6 +95,14 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		F7D711B820D0284300E51129 /* MapViewController */ = {
+			isa = PBXGroup;
+			children = (
+				F7D711B920D0288700E51129 /* MapViewController.swift */,
+			);
+			path = MapViewController;
+			sourceTree = "<group>";
+		};
 		F7DD8C3820BE9E500059C862 = {
 			isa = PBXGroup;
 			children = (
@@ -114,6 +124,7 @@
 		F7DD8C4320BE9E500059C862 /* Specialist */ = {
 			isa = PBXGroup;
 			children = (
+				F7D711B820D0284300E51129 /* MapViewController */,
 				F7DD8C6A20C9D4480059C862 /* CompanyOffers */,
 				F7DD8C6520C9D0890059C862 /* Models */,
 				F7DD8C6220C9C1500059C862 /* Profile */,
@@ -314,6 +325,7 @@
 				F7F3ABF720CF19520064040E /* OrdersController.swift in Sources */,
 				F7DD8C7420CA64860059C862 /* AddCompanyOffer.swift in Sources */,
 				F7DD8C4720BE9E500059C862 /* ViewController.swift in Sources */,
+				F7D711BA20D0288700E51129 /* MapViewController.swift in Sources */,
 				F7DD8C5720BEAB7D0059C862 /* LoginController.swift in Sources */,
 				F7DD8C5E20C98D580059C862 /* MainTabBarController.swift in Sources */,
 				F7DD8C4520BE9E500059C862 /* AppDelegate.swift in Sources */,
