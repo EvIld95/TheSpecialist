@@ -12,6 +12,7 @@ import Firebase
 class CompanyOffersController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
     let cellId = "cellId"
+    var fetchedPost = [Post]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,9 +23,10 @@ class CompanyOffersController: UICollectionViewController, UICollectionViewDeleg
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
         collectionView?.refreshControl = refreshControl
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Add", style: .done, target: self, action: #selector(createOffer))
         
         setupNavigationItems()
-        fetchAllPosts()
+        fetchAllOffers()
     }
     
     @objc func handleUpdateFeed() {
@@ -34,12 +36,51 @@ class CompanyOffersController: UICollectionViewController, UICollectionViewDeleg
     @objc func handleRefresh() {
         print("Handling refresh..")
         posts.removeAll()
-        fetchAllPosts()
+        //fetchAllPosts()
+        fetchAllOffers()
+    }
+    
+    @objc func createOffer() {
+        let addCompanyOfferController = AddCompanyOfferController()
+        //let layout = UICollectionViewFlowLayout()
+        //let photoSelectorController = PhotoSelectorController(collectionViewLayout: layout)
+        let navController = UINavigationController(rootViewController: addCompanyOfferController)
+        
+        present(navController, animated: true, completion: nil)
     }
     
     fileprivate func fetchAllPosts() {
-        fetchPosts()
+        //fetchPosts()
+        fetchAllOffers()
     }
+    
+    fileprivate func fetchAllOffers() {
+        Database.database().reference().child("offers").observeSingleEvent(of: .value) { (snapshot) in
+            guard let orderIdsDictionary = snapshot.value as? [String: Any] else { return }
+            let myGroup = DispatchGroup()
+            orderIdsDictionary.forEach({ (key, value) in
+                myGroup.enter()
+                guard let ordersDictionary = value as? [String: Any] else { return }
+                Database.fetchUserWithUID(uid: key, completion: { (user) in
+                    ordersDictionary.forEach({ (orderKey, orderValue) in
+                        guard let orderData = orderValue as? [String: Any] else { return }
+                        var post = Post(user: user, dictionary: orderData)
+                        post.id = orderKey
+                        self.posts.append(post)
+                    })
+                    myGroup.leave()
+                })
+            })
+            myGroup.notify(queue: .main) {
+                self.posts.sort(by: { (p1, p2) -> Bool in
+                    return p1.creationDate.compare(p2.creationDate) == .orderedDescending
+                })
+                self.collectionView?.reloadData()
+            }
+            
+        }
+    }
+    
 
     var posts = [Post]()
     fileprivate func fetchPosts() {

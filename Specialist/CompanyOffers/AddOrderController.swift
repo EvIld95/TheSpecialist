@@ -95,7 +95,7 @@ class AddOrderController: UIViewController, CLLocationManagerDelegate {
                     return
                 }
                 print("Successfully saved post to DB")
-                //self.dismiss(animated: true, completion: nil)
+                self.dismiss(animated: true, completion: nil)
                 //NotificationCenter.default.post(name: SharePhotoController.updateFeedNotificationName, object: nil)
             }
             

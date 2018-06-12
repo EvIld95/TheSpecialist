@@ -18,6 +18,8 @@ class OrdersController: UICollectionViewController, UICollectionViewDelegateFlow
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Add", style: .done, target: self, action: #selector(createOrder))
+        
         collectionView?.backgroundColor = .white
         collectionView?.register(OrdersCell.self, forCellWithReuseIdentifier: cellId)
         
@@ -26,19 +28,27 @@ class OrdersController: UICollectionViewController, UICollectionViewDelegateFlow
         collectionView?.refreshControl = refreshControl
         
         setupNavigationItems()
-        fetchOrders()
+        //fetchOrders()
+        fetchAllOrders()
     }
     
     @objc func handleUpdateFeed() {
         handleRefresh()
-        fetchOrders()
+        //fetchOrders()
+        fetchAllOrders()
     }
     
     @objc func handleRefresh() {
         print("Handling refresh..")
         orders.removeAll()
-        
     }
+    
+    @objc func createOrder() {
+        let addOrderController = AddOrderController()
+        let navController = UINavigationController(rootViewController: addOrderController)
+        self.present(navController, animated: true, completion: nil)
+    }
+    
     fileprivate func fetchOrders() {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         Database.fetchUserWithUID(uid: uid) { (user) in
@@ -64,6 +74,33 @@ class OrdersController: UICollectionViewController, UICollectionViewDelegateFlow
             self.collectionView?.reloadData()
         }) { (err) in
             print("Failed to fetch orders:", err)
+        }
+    }
+    
+    fileprivate func fetchAllOrders() {
+        Database.database().reference().child("orders").observeSingleEvent(of: .value) { (snapshot) in
+            guard let orderIdsDictionary = snapshot.value as? [String: Any] else { return }
+            let myGroup = DispatchGroup()
+            orderIdsDictionary.forEach({ (key, value) in
+                myGroup.enter()
+                guard let ordersDictionary = value as? [String: Any] else { return }
+                Database.fetchUserWithUID(uid: key, completion: { (user) in
+                    ordersDictionary.forEach({ (orderKey, orderValue) in
+                        guard let orderData = orderValue as? [String: Any] else { return }
+                        var order = Order(user: user, dictionary: orderData)
+                        order.id = orderKey
+                        self.orders.append(order)
+                    })
+                    myGroup.leave()
+                })
+            })
+            myGroup.notify(queue: .main) {
+                self.orders.sort(by: { (p1, p2) -> Bool in
+                    return p1.creationDate.compare(p2.creationDate) == .orderedDescending
+                })
+                self.collectionView?.reloadData()
+            }
+            
         }
     }
     

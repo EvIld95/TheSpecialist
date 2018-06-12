@@ -11,21 +11,6 @@ import Firebase
 
 class MainTabBarController: UITabBarController, UITabBarControllerDelegate {
     
-    func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
-        
-        let index = viewControllers?.index(of: viewController)
-        if index == 2 {
-            let addCompanyOfferController = AddCompanyOfferController()
-            //let layout = UICollectionViewFlowLayout()
-            //let photoSelectorController = PhotoSelectorController(collectionViewLayout: layout)
-            let navController = UINavigationController(rootViewController: addCompanyOfferController)
-            
-            present(navController, animated: true, completion: nil)
-            return false
-        }
-        return true
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -49,13 +34,7 @@ class MainTabBarController: UITabBarController, UITabBarControllerDelegate {
         let collectionViewFlowLayout = UICollectionViewFlowLayout()
         let companyOffersController = CompanyOffersController(collectionViewLayout: collectionViewFlowLayout)
         let homeNavController = templateNavController(unselectedImage: #imageLiteral(resourceName: "home_unselected"), selectedImage: #imageLiteral(resourceName: "home_selected"), rootViewController: companyOffersController) 
-        
-        //search
-        let addOrderController = AddOrderController()
-        let searchNavController = templateNavController(unselectedImage: #imageLiteral(resourceName: "search_unselected"), selectedImage: #imageLiteral(resourceName: "search_selected"), rootViewController: addOrderController)
-        
-        
-        let plusNavController = templateNavController(unselectedImage: #imageLiteral(resourceName: "plus_unselected"), selectedImage: #imageLiteral(resourceName: "plus_unselected"))
+
         
         let collectionViewFlowLayout2 = UICollectionViewFlowLayout()
         let ordersController = OrdersController(collectionViewLayout: collectionViewFlowLayout2)
@@ -73,8 +52,6 @@ class MainTabBarController: UITabBarController, UITabBarControllerDelegate {
         tabBar.tintColor = .black
         
         viewControllers = [homeNavController,
-                           searchNavController,
-                           plusNavController,
                            likeNavController,
                            userProfileNavController]
         
