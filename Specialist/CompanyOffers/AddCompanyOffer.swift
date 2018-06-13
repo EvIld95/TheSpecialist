@@ -17,6 +17,7 @@ class AddCompanyOfferController: UIViewController, UIImagePickerControllerDelega
         button.setImage(#imageLiteral(resourceName: "plus_photo").withRenderingMode(.alwaysOriginal), for: .normal)
         button.addTarget(self, action: #selector(handlePlusPhoto), for: .touchUpInside)
         button.contentMode = .scaleAspectFit
+        button.imageView?.contentMode = .scaleAspectFit
         return button
     }()
     
