@@ -17,6 +17,7 @@ class CompanyOffersController: UICollectionViewController, UICollectionViewDeleg
     override func viewDidLoad() {
         super.viewDidLoad()
     
+        self.navigationController?.navigationBar.tintColor = .white
         collectionView?.backgroundColor = .white
         collectionView?.register(CompanyOffersCell.self, forCellWithReuseIdentifier: cellId)
         
@@ -36,7 +37,7 @@ class CompanyOffersController: UICollectionViewController, UICollectionViewDeleg
     @objc func handleRefresh() {
         print("Handling refresh..")
         posts.removeAll()
-        //fetchAllPosts()
+        self.collectionView?.reloadData()
         fetchAllOffers()
     }
     
@@ -47,11 +48,6 @@ class CompanyOffersController: UICollectionViewController, UICollectionViewDeleg
         let navController = UINavigationController(rootViewController: addCompanyOfferController)
         
         present(navController, animated: true, completion: nil)
-    }
-    
-    fileprivate func fetchAllPosts() {
-        //fetchPosts()
-        fetchAllOffers()
     }
     
     fileprivate func fetchAllOffers() {
@@ -75,6 +71,7 @@ class CompanyOffersController: UICollectionViewController, UICollectionViewDeleg
                 self.posts.sort(by: { (p1, p2) -> Bool in
                     return p1.creationDate.compare(p2.creationDate) == .orderedDescending
                 })
+                self.collectionView?.refreshControl?.endRefreshing()
                 self.collectionView?.reloadData()
             }
             

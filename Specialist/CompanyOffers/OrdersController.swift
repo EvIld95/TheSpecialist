@@ -28,19 +28,19 @@ class OrdersController: UICollectionViewController, UICollectionViewDelegateFlow
         collectionView?.refreshControl = refreshControl
         
         setupNavigationItems()
-        //fetchOrders()
         fetchAllOrders()
     }
     
     @objc func handleUpdateFeed() {
         handleRefresh()
-        //fetchOrders()
         fetchAllOrders()
     }
     
     @objc func handleRefresh() {
         print("Handling refresh..")
         orders.removeAll()
+        self.collectionView?.reloadData()
+        fetchAllOrders()
     }
     
     @objc func createOrder() {
@@ -98,6 +98,7 @@ class OrdersController: UICollectionViewController, UICollectionViewDelegateFlow
                 self.orders.sort(by: { (p1, p2) -> Bool in
                     return p1.creationDate.compare(p2.creationDate) == .orderedDescending
                 })
+                self.collectionView?.refreshControl?.endRefreshing()
                 self.collectionView?.reloadData()
             }
             

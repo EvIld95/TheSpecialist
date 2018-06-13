@@ -12,7 +12,43 @@ import MapKit
 import CoreLocation
 import Firebase
 
-class MapViewController: UIViewController {
+class MapViewController: UIViewController, UISearchBarDelegate {
+    
+    var regionSet = false
+    lazy var searchBar: UISearchBar = {
+        let sb = UISearchBar()
+        sb.placeholder = "Enter category"
+        sb.barTintColor = .gray
+        UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).backgroundColor = UIColor.rgb(red: 230, green: 230, blue: 230)
+        
+        sb.delegate = self
+        return sb
+    }()
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchText.isEmpty {
+            self.filteredOffers = self.offers
+        } else {
+            if searchText.lowercased() == "all" {
+                self.filteredOffers = self.offers
+            } else {
+                self.filteredOffers = self.offers.filter { (offer) -> Bool in
+                    return offer.category.lowercased().contains(searchText.lowercased())
+                }
+            }
+        }
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        self.mapView.removeAnnotations(self.mapView.annotations)
+        for offer in self.filteredOffers {
+            let pointAnnotation = MKPointAnnotation()
+            pointAnnotation.coordinate = CLLocationCoordinate2D(latitude: offer.latitude, longitude: offer.longitude)
+            pointAnnotation.title = offer.caption
+            
+            self.mapView.addAnnotation(pointAnnotation)
+        }
+    }
     
     var locationManager = CLLocationManager()
     lazy var mapView: MKMapView = {
@@ -33,9 +69,20 @@ class MapViewController: UIViewController {
             mapView.showsUserLocation = true
         }
     }
-    
+    @objc func endEditing() {
+        searchBar.resignFirstResponder()
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(endEditing))
+        tap.cancelsTouchesInView = false
+        self.view.addGestureRecognizer(tap)
+        
+        
+        navigationController?.navigationBar.addSubview(searchBar)
+        let navBar = navigationController?.navigationBar
+        searchBar.anchor(top: navBar?.topAnchor, left: navBar?.leftAnchor, bottom: navBar?.bottomAnchor, right: navBar?.rightAnchor, paddingTop: 0, paddingLeft: 8, paddingBottom: 0, paddingRight: 8, width: 0, height: 0)
         
         fetchAllOffers()
         self.view.addSubview(mapView)
@@ -44,6 +91,8 @@ class MapViewController: UIViewController {
     }
     
     var offers = [Post]()
+    var filteredOffers = [Post]()
+    
     fileprivate func fetchAllOffers() {
         Database.database().reference().child("offers").observeSingleEvent(of: .value) { (snapshot) in
             guard let orderIdsDictionary = snapshot.value as? [String: Any] else { return }
@@ -79,6 +128,7 @@ class MapViewController: UIViewController {
 
 extension MapViewController: CLLocationManagerDelegate {
     
+    
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         if status == .authorizedWhenInUse {
             print("AuthorizationAlways")
@@ -91,8 +141,11 @@ extension MapViewController: CLLocationManagerDelegate {
         let newLocation = locations.last!
         let center = CLLocationCoordinate2D(latitude: newLocation.coordinate.latitude, longitude: newLocation.coordinate.longitude)
         let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.06, longitudeDelta: 0.06))
-        mapView.setRegion(region, animated: true)
         
+        if (regionSet == false) {
+            mapView.setRegion(region, animated: true)
+            regionSet = true
+        }
         print("\(newLocation.coordinate.latitude) | \(newLocation.coordinate.longitude)")
         
         if newLocation.timestamp.timeIntervalSinceNow < -5 {
@@ -132,10 +185,6 @@ extension MapViewController: MKMapViewDelegate {
             annotationView!.canShowCallout = true
             annotationView!.isEnabled = true
             annotationView!.isUserInteractionEnabled = true
-            //let label = UILabel(frame: CGRect(x: 0, y: 0, width: 120, height: 40))
-            //label.text = "Time"
-            
-            //annotationView!.rightCalloutAccessoryView = label
             
         } else {
             annotationView?.annotation = annotation

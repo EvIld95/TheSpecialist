@@ -39,7 +39,8 @@ class DetailCompanyOffer: UIViewController {
     let userProfileImageView: UIImageView = {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFill
-        iv.backgroundColor = .yellow
+        iv.clipsToBounds = true
+        iv.layer.cornerRadius = 20
         return iv
     }()
     
@@ -74,6 +75,7 @@ class DetailCompanyOffer: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationController?.navigationBar.tintColor = .white
         self.view.backgroundColor = .white
         self.view.addSubview(userProfileImageView)
         self.view.addSubview(usernameLabel)

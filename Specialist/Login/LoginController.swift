@@ -93,7 +93,9 @@ class LoginController: UIViewController {
         guard let pass = passwordTextField.text else { return }
         Auth.auth().signIn(withEmail: email, password: pass) { (user, err) in
             if let err = err {
-                print("Failed to login: ", err)
+                let alertController = UIAlertController(title: "Error", message: err.localizedDescription, preferredStyle: .alert)
+                alertController.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+                self.present(alertController, animated: true, completion: nil)
                 return
             }
             print("Successfully logged back in with user:", user?.uid ?? "")
@@ -123,7 +125,16 @@ class LoginController: UIViewController {
         return .lightContent
     }
     
+    @objc func endEditing() {
+        emailTextField.resignFirstResponder()
+        passwordTextField.resignFirstResponder()
+    }
+    
     override func viewDidLoad() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(endEditing))
+        tap.cancelsTouchesInView = false
+        self.view.addGestureRecognizer(tap)
+        
         view.backgroundColor = .white
         view.addSubview(dontHaveAccountButton)
         view.addSubview(logoContainerView)

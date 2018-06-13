@@ -175,7 +175,6 @@ class AddCompanyOfferController: UIViewController, UIImagePickerControllerDelega
         addImageButton.translatesAutoresizingMaskIntoConstraints = false
         addImageButton.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 1/4).isActive = true
         stackView.anchor(top: self.view.safeAreaLayoutGuide.topAnchor, left: self.view.safeAreaLayoutGuide.leftAnchor, bottom: self.view.safeAreaLayoutGuide.bottomAnchor, right: self.view.safeAreaLayoutGuide.rightAnchor, paddingTop: 12, paddingLeft: 4, paddingBottom: 4, paddingRight: 4, width: 0, height: 0)
-        
     }
     
 }
