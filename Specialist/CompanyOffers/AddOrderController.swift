@@ -2,9 +2,6 @@
 //  AddOrderController.swift
 //  Specialist
 //
-//  Created by Paweł Szudrowicz on 11.06.2018.
-//  Copyright © 2018 Paweł Szudrowicz. All rights reserved.
-//
 
 import Foundation
 
@@ -109,10 +106,21 @@ class AddOrderController: UIViewController, CLLocationManagerDelegate {
         self.dismiss(animated: true, completion: nil)
     }
     
+    @objc func endEditing() {
+        self.captionTextField.resignFirstResponder()
+        self.categoryText.resignFirstResponder()
+        self.textView.resignFirstResponder()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         //self.locationManager.requestAlwaysAuthorization()
+        
+        let tap = UISwipeGestureRecognizer(target: self, action: #selector(endEditing))
+        tap.direction = .down
+        tap.cancelsTouchesInView = false
+        self.view.addGestureRecognizer(tap)
         
         // For use in foreground
         self.locationManager.requestWhenInUseAuthorization()

@@ -2,9 +2,7 @@
 //  MapViewController.swift
 //  Specialist
 //
-//  Created by Paweł Szudrowicz on 12.06.2018.
-//  Copyright © 2018 Paweł Szudrowicz. All rights reserved.
-//
+
 
 import Foundation
 import UIKit
@@ -72,6 +70,12 @@ class MapViewController: UIViewController, UISearchBarDelegate {
     @objc func endEditing() {
         searchBar.resignFirstResponder()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        fetchAllOffers()
+        
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -84,7 +88,7 @@ class MapViewController: UIViewController, UISearchBarDelegate {
         let navBar = navigationController?.navigationBar
         searchBar.anchor(top: navBar?.topAnchor, left: navBar?.leftAnchor, bottom: navBar?.bottomAnchor, right: navBar?.rightAnchor, paddingTop: 0, paddingLeft: 8, paddingBottom: 0, paddingRight: 8, width: 0, height: 0)
         
-        fetchAllOffers()
+        //fetchAllOffers()
         self.view.addSubview(mapView)
         setupLocationManager()
         mapView.anchor(top: self.view.safeAreaLayoutGuide.topAnchor, left: self.view.leftAnchor, bottom: self.view.bottomAnchor, right: self.view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
@@ -118,9 +122,7 @@ class MapViewController: UIViewController, UISearchBarDelegate {
                     pointAnnotation.title = offer.caption
                     self.mapView.addAnnotation(pointAnnotation)
                 }
-                
             }
-            
         }
     }
     

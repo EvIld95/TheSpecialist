@@ -2,9 +2,7 @@
 //  AddCompanyOffer.swift
 //  Specialist
 //
-//  Created by Paweł Szudrowicz on 08.06.2018.
-//  Copyright © 2018 Paweł Szudrowicz. All rights reserved.
-//
+
 
 import UIKit
 import Firebase
@@ -158,8 +156,19 @@ class AddCompanyOfferController: UIViewController, UIImagePickerControllerDelega
         self.dismiss(animated: true, completion: nil)
     }
     
+    @objc func endEditing() {
+        self.captionTextField.resignFirstResponder()
+        self.categoryText.resignFirstResponder()
+        self.addressTextField.resignFirstResponder()
+        self.textView.resignFirstResponder()
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let tap = UISwipeGestureRecognizer(target: self, action: #selector(endEditing))
+        tap.direction = .down
+        tap.cancelsTouchesInView = false
+        self.view.addGestureRecognizer(tap)
         
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .done, target: self, action: #selector(cancelHandle))
         
